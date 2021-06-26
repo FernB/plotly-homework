@@ -33,8 +33,8 @@ var trace = {
       var layout = {
         title: 'Marker Size and Color',
         showlegend: false,
-        // height: 600,
-        // width: 600
+        height: 800,
+        width: 1200
       };
       
       Plotly.newPlot('bubble', data3, layout);
@@ -90,9 +90,9 @@ var trace = {
 
             fillcolor: 'red',
             x0: 0.48,
-            y0: 0.32,
+            y0: 0.31,
             x1: 0.52,
-            y1: 0.35,
+            y1: 0.34,
             line: {
               color: 'red'
             }}
@@ -126,10 +126,21 @@ d3.json("samples.json").then(data =>{
 function filterData() {
 
   var filterOption = d3.select("#selDataset");
+  
   var subject = filterOption.property("value");
 
   var metadatapanel = d3.select('#sample-metadata');
+  metadatapanel.selectAll("p").remove();
   var metadataid = data.metadata.filter(d => d.id === parseInt(subject));
+  var washes = metadataid[0].wfreq;
+  console.log(washes)
+
+  var rwash = (washes == 0 | washes == null) ? 3 : (((20*(10-washes))-10)*(Math.PI/180));
+
+  var xwash = 0.32*Math.cos(rwash)+0.5;
+  var ywash = 0.32*Math.sin(rwash)+0.32;
+  console.log(xwash)
+
   
   Object.entries(metadataid[0]).forEach(([key,value]) => {
   
@@ -187,6 +198,7 @@ Plotly.restyle("bubble", 'y', [sample_values[0]]);
 Plotly.restyle("bubble", 'x', [otu_ids[0]]);
 Plotly.restyle('bubble',{'marker.size':[sample_values[0]]});
 Plotly.restyle('bubble',{'marker.color':[otu_ids[0]]});
+Plotly.relayout('gauge',{'shapes[0].x1':xwash,'shapes[0].y1':ywash})
 // Plotly.restyle("bubble", 'cmax', [max]);
 // Plotly.restyle("bubble", 'cmin', [min]);
 
