@@ -8,9 +8,13 @@ var trace = {
     orientation: "h"
     };
     
-    var data2 = [trace];
+var databar = [trace];
+
+var layoutbar = {
+
+};
     
-    Plotly.newPlot("bar",data2)
+    Plotly.newPlot("bar",databar, layoutbar)
 
 
 
@@ -20,8 +24,6 @@ var trace = {
         mode: 'markers',
         marker: {
           color: [10, 11, 12, 13],
-          // cmin: 0,
-          // cmax: 250,
           colorscale: 'Cividis',
           opacity: [1, 0.8, 0.6, 0.4],
           size: [40, 60, 80, 100],
@@ -30,72 +32,106 @@ var trace = {
       
       var data3 = [trace1];
       
-      var layout = {
+      var layoutbubble = {
         title: 'Marker Size and Color',
         showlegend: false,
         height: 800,
-        width: 1200
+        width: 1200,
+        xaxis: {title: {
+          text: 'OTU ID'
+        }}
       };
       
-      Plotly.newPlot('bubble', data3, layout);
+      Plotly.newPlot('bubble', data3, layoutbubble);
 
 
       var data = [
+        // {
+        //   domain: { x: [0, 1], y: [0, 1] },
+        //   // value: 2,
+        //   title: { text: "Speed" },
+        //   type: "indicator",
+        //   mode: "gauge",
+        //   // delta: { reference: 380 },
+        //   gauge: {
+        //     axis: { range: [null, 9], tickmode: "linear", tick0: 0, dtick: 1 },
+        //     steps: [
+        //       { range: [0, 1], color: "rgb(100,0,0)" },
+        //       { range: [1, 2], color: "rgb(200,100,0)" },
+        //       { range: [2, 3], color: "rgb(150,130,0)" },
+        //       { range: [3, 4], color: "rgb(150,150,35)" },
+        //       { range: [4, 5], color: "rgb(128,128,0)" },
+        //       { range: [5, 6], color: "rgb(200,255,100)" },
+        //       { range: [6, 7], color: "rgb(50,200,35)" },
+        //       { range: [7, 8], color: "rgb(0,150,0)" },
+        //       { range: [8, 9], color: "rgb(0,100,0)" },
+
+        //     ],
+        //     // threshold: {
+        //     //   line: { color: "red", width: 4 },
+        //     //   thickness: 0.75,
+        //     //   value: 2,
+
+        //     // }
+        //   }
+        // }
         {
-          domain: { x: [0, 1], y: [0, 1] },
-          // value: 2,
-          title: { text: "Speed" },
-          type: "indicator",
-          mode: "gauge",
-          // delta: { reference: 380 },
-          gauge: {
-            axis: { range: [null, 9], tickmode: "linear", tick0: 0, dtick: 1 },
-            steps: [
-              { range: [0, 1], color: "rgb(100,0,0)" },
-              { range: [1, 2], color: "rgb(200,100,0)" },
-              { range: [2, 3], color: "rgb(150,130,0)" },
-              { range: [3, 4], color: "rgb(150,150,35)" },
-              { range: [4, 5], color: "rgb(128,128,0)" },
-              { range: [5, 6], color: "rgb(200,255,100)" },
-              { range: [6, 7], color: "rgb(50,200,35)" },
-              { range: [7, 8], color: "rgb(0,150,0)" },
-              { range: [8, 9], color: "rgb(0,100,0)" },
+          values: [20, 20, 20, 20, 20, 20,20, 20, 20,180],
+          labels: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4', '2-3','1-2', '0-1',' ' ],
+          textposition: 'inside',
+          textinfo: 'label',
+          marker: {
+            colors: ["rgb(0,69,41)", "rgb(0,104,55)", "rgb(35,132,67)", "rgb(65,171,93)", "rgb(120,198,121)","rgb(173,221,142)","rgb(217,240,163)", "rgb(247,252,185)", "rgb(255,255,229)","rgb(255,255,255)"],
+          },
+          domain: {row:0, column: 0},
+          name: 'Scrubs per Week',
+          rotation: 90,
+          hoverinfo: 'label+name',
+          hole: .4,
+          type: 'pie'
 
-            ],
-            // threshold: {
-            //   line: { color: "red", width: 4 },
-            //   thickness: 0.75,
-            //   value: 2,
-
-            // }
-          }
         }
+
+
+
+
       ];
       
       var layout = { 
         width: 400, 
-        height: 350, 
+        height: 400, 
         margin: { t: 0, b: 0 },
+        showlegend: false,
         shapes: [
           {
             type: 'line',
+            // x0: 0.5,
+            // y0:0.32,
+            // x1: 0.5,
+            // y1: 0.6,
             x0: 0.5,
-            y0:0.32,
+            y0:0.5,
             x1: 0.5,
-            y1: 0.62,
-            line: { color: "red", width: 4 },
+            y1: 0.7,
+
+            
+            line: { color: "firebrick", width: 4 },
           },
           {
             type: 'circle',
 
-            fillcolor: 'red',
+            fillcolor: 'firebrick',
             x0: 0.48,
-            y0: 0.31,
+            y0: 0.48,
             x1: 0.52,
-            y1: 0.34,
+            y1: 0.51,
             line: {
-              color: 'red'
-            }}
+              color: 'firebrick'
+            }},
+
+    
+
+
         ]
 
       };
@@ -135,10 +171,13 @@ function filterData() {
   var washes = metadataid[0].wfreq;
   console.log(washes)
 
-  var rwash = (washes == 0 | washes == null) ? 3 : (((20*(10-washes))-10)*(Math.PI/180));
+  // var rwash = (washes == 0 | washes == null) ? 3 : (((18*(10-washes))+(washes-5))*(Math.PI/180));
 
-  var xwash = 0.32*Math.cos(rwash)+0.5;
-  var ywash = 0.32*Math.sin(rwash)+0.32;
+  var rwash = (washes == 0 | washes == null) ? 3 : (202.5+(-22.5*washes))*(Math.PI/180);
+
+
+  var xwash = 0.2*Math.cos(rwash)+0.5;
+  var ywash = 0.2*Math.sin(rwash)+0.5;
   console.log(xwash)
 
   
