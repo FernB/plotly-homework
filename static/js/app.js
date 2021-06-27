@@ -7,7 +7,6 @@ var trace = {
     text:[],
     type: "bar",
     orientation: "h",
-    // hovertemplate:"<b>OTU Label:</b><br>"+"%{text}"+"<extra></extra>",
     hoverinfo:"text",
     };
     
@@ -16,6 +15,7 @@ var databar = [trace];
 var layoutbar = {
   hovermode: 'closest',
   hoverlabel: { bgcolor: "#4eb3d3", opacity:0.4},
+  title: 'Top 10 Occuring Microbial Species'
 };
     
     Plotly.newPlot("bar",databar, layoutbar)
@@ -39,7 +39,7 @@ var layoutbar = {
       var data3 = [trace1];
       
       var layoutbubble = {
-        title: 'Marker Size and Color',
+        title: 'All Microbial Species',
         hovermode: 'closest',
         showlegend: false,
         height: 800,
@@ -166,13 +166,29 @@ d3.json("samples.json").then(data =>{
     optionValue.text(i);
     });
 
+    var subject = "940";
+
+
+    updatePlot(subject);
+
+
+
+
     d3.selectAll("#selDataset").on("change", filterData);
 
-function filterData() {
+    function filterData(){
 
-  var filterOption = d3.select("#selDataset");
+      var filterOption = d3.select("#selDataset");
   
-  var subject = filterOption.property("value");
+      subject = filterOption.property("value");
+
+      updatePlot(subject);
+
+    }
+
+
+function updatePlot(subject) {
+
 
   var metadatapanel = d3.select('#sample-metadata');
   metadatapanel.selectAll("p").remove();
@@ -182,7 +198,7 @@ function filterData() {
 
   // var rwash = (washes == 0 | washes == null) ? 3 : (((18*(10-washes))+(washes-5))*(Math.PI/180));
 
-  var rwash = (washes == 0 | washes == null) ? 3 : (202.5+(-22.5*washes))*(Math.PI/180);
+  var rwash = (washes == 0 | washes == null) ? 2.5 : (202.5+(-22.5*washes))*(Math.PI/180);
 
 
   var xwash = 0.2*Math.cos(rwash)+0.5;
@@ -236,12 +252,10 @@ var alllabels = otu_labels[0].map(d => (d.split(";")).join("<br>"));
 
 
 
-// console.log(top10values)
-// console.log(top10ids)
-// console.log(top10labels)
 
-var max = top10ids.reduce((a,b) => Math.max(a,b));
-var min = top10ids.reduce((a,b) => Math.min(a,b));
+
+// var max = top10ids.reduce((a,b) => Math.max(a,b));
+// var min = top10ids.reduce((a,b) => Math.min(a,b));
 
 Plotly.restyle("bar", 'x', [top10values.reverse()]);
 Plotly.restyle('bar','y',[idlb.reverse()]);
@@ -252,8 +266,7 @@ Plotly.restyle('bubble',{'marker.size':[sample_values[0]]});
 Plotly.restyle('bubble',{'marker.color':[otu_ids[0]]});
 Plotly.restyle('bubble','text',[alllabels]);
 Plotly.relayout('gauge',{'shapes[0].x1':xwash,'shapes[0].y1':ywash})
-// Plotly.restyle("bubble", 'cmax', [max]);
-// Plotly.restyle("bubble", 'cmin', [min]);
+
 
 
 
