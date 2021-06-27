@@ -4,14 +4,18 @@
 var trace = {
     x: [],
     y: [],
+    text:[],
     type: "bar",
-    orientation: "h"
+    orientation: "h",
+    // hovertemplate:"<b>OTU Label:</b><br>"+"%{text}"+"<extra></extra>",
+    hoverinfo:"text",
     };
     
 var databar = [trace];
 
 var layoutbar = {
-
+  hovermode: 'closest',
+  hoverlabel: { bgcolor: "#4eb3d3", opacity:0.4},
 };
     
     Plotly.newPlot("bar",databar, layoutbar)
@@ -21,6 +25,8 @@ var layoutbar = {
     var trace1 = {
         x: [1, 2, 3, 4],
         y: [10, 11, 12, 13],
+        text: [],
+        hoverinfo: "text",
         mode: 'markers',
         marker: {
           color: [10, 11, 12, 13],
@@ -34,6 +40,7 @@ var layoutbar = {
       
       var layoutbubble = {
         title: 'Marker Size and Color',
+        hovermode: 'closest',
         showlegend: false,
         height: 800,
         width: 1200,
@@ -86,7 +93,7 @@ var layoutbar = {
           domain: {row:0, column: 0},
           name: 'Scrubs per Week',
           rotation: 90,
-          hoverinfo: 'label+name',
+          hoverinfo: 'none',
           hole: .4,
           type: 'pie'
 
@@ -101,6 +108,8 @@ var layoutbar = {
         width: 400, 
         height: 400, 
         margin: { t: 0, b: 0 },
+        title: {text:'<b>Bellybutton Washing Frequency</b>', x:0.5, xanchor:'center', y:0.98, yanchor:'top'},
+        annotations: [{text:'Scrubs per Week', x:0.5, xanchor:'center', y:0.9, yanchor:'top', showarrow: false}],
         showlegend: false,
         shapes: [
           {
@@ -220,6 +229,9 @@ var top10values = sample_values[0].slice(0,10);
 var top10ids = otu_ids[0].slice(0,10);
 var idlb = top10ids.map(d => "otu " + d);
 var top10labels = otu_labels[0].slice(0,10);
+var labelsplit = top10labels.map(d => (d.split(";")).join("<br>"));
+console.log(labelsplit)
+var alllabels = otu_labels[0].map(d => (d.split(";")).join("<br>"));
 
 
 
@@ -232,11 +244,13 @@ var max = top10ids.reduce((a,b) => Math.max(a,b));
 var min = top10ids.reduce((a,b) => Math.min(a,b));
 
 Plotly.restyle("bar", 'x', [top10values.reverse()]);
-Plotly.restyle('bar','y',[idlb.reverse()])
+Plotly.restyle('bar','y',[idlb.reverse()]);
+Plotly.restyle('bar','text',[labelsplit.reverse()]);
 Plotly.restyle("bubble", 'y', [sample_values[0]]);
 Plotly.restyle("bubble", 'x', [otu_ids[0]]);
 Plotly.restyle('bubble',{'marker.size':[sample_values[0]]});
 Plotly.restyle('bubble',{'marker.color':[otu_ids[0]]});
+Plotly.restyle('bubble','text',[alllabels]);
 Plotly.relayout('gauge',{'shapes[0].x1':xwash,'shapes[0].y1':ywash})
 // Plotly.restyle("bubble", 'cmax', [max]);
 // Plotly.restyle("bubble", 'cmin', [min]);
