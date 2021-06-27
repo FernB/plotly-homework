@@ -195,7 +195,7 @@ d3.json("samples.json").then(data =>{
 
         // var rwash = (washes == 0 | washes == null) ? 3 : (((18*(10-washes))+(washes-5))*(Math.PI/180));
         // calculate radians to turn indicator line
-        var rwash = (washes == 0 | washes == null) ? 3.1 : (202.5+(-22.5*washes))*(Math.PI/180);
+        var rwash = (washes == 0 | washes == null) ? 3.1 : (180+(-20*washes))*(Math.PI/180);
 
         // get (x,y) for line end 
         var xwash = 0.2*Math.cos(rwash)+0.5;
