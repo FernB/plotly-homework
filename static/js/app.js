@@ -102,15 +102,15 @@ var datagauge = [
       var layoutgauge = { 
         width: 400, 
         height: 400, 
-        margin: { t: 0, b: 0 },
-        title: {text:'<b>Bellybutton Washing Frequency</b>', 
-                x:0.5, xanchor:'center', 
-                y:0.98, yanchor:'top'
-                },
-        annotations: [{text:'Scrubs per Week', 
-                      x:0.5, xanchor:'center', 
-                      y:0.9, yanchor:'top', 
-                      showarrow: false}],
+        margin: { t: 0, b: 0, l: 0, r: 0},
+        // title: {text:'<b>Bellybutton Washing Frequency</b>', 
+        //         x:0.5, xanchor:'center', 
+        //         y:0.98, yanchor:'top'
+        //         },
+        // annotations: [{text:'Scrubs per Week', 
+        //               x:0.5, xanchor:'center', 
+        //               y:0.9, yanchor:'top', 
+        //               showarrow: false}],
         showlegend: false,
         shapes: [
           {
@@ -134,7 +134,7 @@ var datagauge = [
             x0: 0.48,
             y0: 0.48,
             x1: 0.52,
-            y1: 0.51,
+            y1: 0.52,
             line: {
               color: 'firebrick'
             }},
@@ -193,14 +193,14 @@ d3.json("samples.json").then(data =>{
         var washes = metadataid[0].wfreq;
         
 
-        // var rwash = (washes == 0 | washes == null) ? 3 : (((18*(10-washes))+(washes-5))*(Math.PI/180));
-        // calculate radians to turn indicator line
-        var rwash = (washes == 0 | washes == null) ? 3.1 : (180+(-20*washes))*(Math.PI/180);
+
+        var rwash = (washes == 0 | washes == null) ? 3.1 : ((20*(10-washes)-10)/180)*(Math.PI);
+        console.log(Math.cos(Math.PI))
 
         // get (x,y) for line end 
         var xwash = 0.2*Math.cos(rwash)+0.5;
         var ywash = 0.2*Math.sin(rwash)+0.5;
-       
+ 
 
         // update panel with metadata
         Object.entries(metadataid[0]).forEach(([key,value]) => {
