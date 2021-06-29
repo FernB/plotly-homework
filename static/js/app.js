@@ -21,7 +21,6 @@ var layoutbar = {
 Plotly.newPlot("bar",databar, layoutbar)
 
 
-
 var databubble = [{
     x: [],
     y: [],
@@ -53,35 +52,6 @@ Plotly.newPlot('bubble', databubble, layoutbubble);
 
 // Gauge as pie chart for greater control over needle
 var datagauge = [
-        // {
-        //   domain: { x: [0, 1], y: [0, 1] },
-        //   // value: 2,
-        //   title: { text: "Speed" },
-        //   type: "indicator",
-        //   mode: "gauge",
-        //   // delta: { reference: 380 },
-        //   gauge: {
-        //     axis: { range: [null, 9], tickmode: "linear", tick0: 0, dtick: 1 },
-        //     steps: [
-        //       { range: [0, 1], color: "rgb(100,0,0)" },
-        //       { range: [1, 2], color: "rgb(200,100,0)" },
-        //       { range: [2, 3], color: "rgb(150,130,0)" },
-        //       { range: [3, 4], color: "rgb(150,150,35)" },
-        //       { range: [4, 5], color: "rgb(128,128,0)" },
-        //       { range: [5, 6], color: "rgb(200,255,100)" },
-        //       { range: [6, 7], color: "rgb(50,200,35)" },
-        //       { range: [7, 8], color: "rgb(0,150,0)" },
-        //       { range: [8, 9], color: "rgb(0,100,0)" },
-
-        //     ],
-        //     // threshold: {
-        //     //   line: { color: "red", width: 4 },
-        //     //   thickness: 0.75,
-        //     //   value: 2,
-
-        //     // }
-        //   }
-        // }
         {
           values: [20, 20, 20, 20, 20, 20,20, 20, 20,180],
           labels: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4', '2-3','1-2', '0-1',' ' ],
@@ -103,22 +73,10 @@ var datagauge = [
         width: 400, 
         height: 400, 
         margin: { t: 0, b: 0, l: 0, r: 0},
-        // title: {text:'<b>Bellybutton Washing Frequency</b>', 
-        //         x:0.5, xanchor:'center', 
-        //         y:0.98, yanchor:'top'
-        //         },
-        // annotations: [{text:'Scrubs per Week', 
-        //               x:0.5, xanchor:'center', 
-        //               y:0.9, yanchor:'top', 
-        //               showarrow: false}],
         showlegend: false,
         shapes: [
           {
             type: 'line',
-            // x0: 0.5,
-            // y0:0.32,
-            // x1: 0.5,
-            // y1: 0.6,
             x0: 0.5,
             y0:0.5,
             x1: 0.5,
@@ -193,7 +151,7 @@ d3.json("samples.json").then(data =>{
         var washes = metadataid[0].wfreq;
         
 
-
+        // radians to turn indicator
         var rwash = (washes == 0 | washes == null) ? 3.1 : ((20*(10-washes)-10)/180)*(Math.PI);
         console.log(Math.cos(Math.PI))
 
@@ -218,10 +176,6 @@ d3.json("samples.json").then(data =>{
 
         // map otu lables 
         var otu_labels = e.map(d => d.otu_labels);
-
-      // var sortedValues = sortList.map(i => sample_values[0][sortList[i]])
-      // var sortedIDs = sortList.map(i => otu_ids[i])
-      // var sortedLabels = sortList.map(i => otu_labels[i])
       
       // slice to get top 10 values for bar chart
       var top10values = sample_values[0].slice(0,10);
@@ -236,7 +190,6 @@ d3.json("samples.json").then(data =>{
       var alllabels = otu_labels[0].map(d => (d.split(";")).join("<br>"));
 
 
-
       // restyle all plots
       Plotly.restyle("bar", 'x', [top10values.reverse()]);
       Plotly.restyle('bar','y',[idlb.reverse()]);
@@ -247,7 +200,6 @@ d3.json("samples.json").then(data =>{
       Plotly.restyle('bubble',{'marker.color':[otu_ids[0]]});
       Plotly.restyle('bubble','text',[alllabels]);
       Plotly.relayout('gauge',{'shapes[0].x1':xwash,'shapes[0].y1':ywash})
-
 
 }
 });
